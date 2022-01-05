@@ -1,5 +1,5 @@
 #!/bin/bash
-select myvar in createDB renameDB dropDB  usedatabase listdatabase Exit
+select myvar in createDB renameDB dropDB  "connect to database" listdatabase Exit
 do
 	case $myvar in
 		createDB )	
@@ -13,7 +13,7 @@ do
 		dropDB )  dbactions/dropdb.sh
 			;;
 
-		usedatabase )
+		"connect to database" )
 				bash usedatabase.sh
 			;;
 		listdatabase )
