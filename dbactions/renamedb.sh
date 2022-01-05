@@ -4,3 +4,4 @@ ls -1 data/
 read -p "Enter DataBase: " dbname
 read -p "Enter New Name: " dbnew
 mv data/$dbname data/$dbnew
+echo "database renamed successfly"

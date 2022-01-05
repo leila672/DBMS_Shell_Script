@@ -17,7 +17,7 @@ do
 				bash usedatabase.sh
 			;;
 		listdatabase )
-		        ls -l ./data 
+		        ls  ./data 
 			;;
 		Exit )
 		        exit

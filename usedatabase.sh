@@ -22,7 +22,7 @@ if [[ -d data/$dbname ]]; then
 					bash tableactions/deleterec.sh $dbname
 				;;
 			"Select from table" )
-					bash tableactions/selectrec.sh $dbname
+					bash tableactions/select.sh $dbname
 				;;
 			"list tables" )
 			      	bash tableactions/list_table.sh $dbname
