@@ -1,20 +1,21 @@
+#!/bin/bash
+
 function checkInt {
     expr $1 + 1 2> /dev/null >> /dev/null
 }
 
-#######################################
 
 echo "avilable tables are : "
-ls ./data/$1
+ls -1 ./data/$1
 read -p "please enter table name : " tableName
 
-if [ -a ./data/$1/$tableName ]
+if [ -f ./data/$1/$tableName ]
     then
     coloumnsNumber=`awk -F: 'NR==1 {print NF}' ./data/$1/$tableName`
         for (( i=1; i <= $coloumnsNumber; i++ ))
         do
-            #######################    
-            ## this if condition because cut in case of pk is different
+             
+            # case pk
             if testPK=`grep "%:" ./data/$1/$tableName | cut -d ":" -f$i | grep "%PK%" ` 
             then
                 coloumnsNames[$i]=`grep "%:" ./data/$1/$tableName | cut -d ":" -f$i | cut -d "%" -f3 `
@@ -31,7 +32,7 @@ if [ -a ./data/$1/$tableName ]
             echo $i"-" ${coloumnsNames[i]} "("${coloumnsTypes[i]}")"
         done
      
-        ## get index of the coloumn he wanted to update
+        #get index of the coloumn he wanted to update
         read -p "enter number of coloumn you want to update : " coloumnIndex 
         checkInt $coloumnIndex
         while [[ $? -ne 0 || $coloumnIndex -le 0 || $coloumnIndex -gt $coloumnsNumber ]]
@@ -41,7 +42,7 @@ if [ -a ./data/$1/$tableName ]
             checkInt $coloumnIndex
         done 
 
-        ## check data type of new value
+        #check data type of new value
         read -p "Enter a new value of type (${coloumnsTypes[coloumnIndex]}) : " newValue;
         if [ ${coloumnsTypes[coloumnIndex]} == "int" ]
             then
@@ -53,8 +54,8 @@ if [ -a ./data/$1/$tableName ]
                 checkInt $newValue
             done
         fi
-        ## check if he update pk
 
+        # check if update pk
         if testPK=`grep "%:" ./data/$1/$tableName | cut -d ":" -f$coloumnIndex | grep "%PK%" ` 
         then
            `cut -f$coloumnIndex -d: ./data/$1/$tableName | grep -w $newValue  >> /dev/null 2>/dev/null`
@@ -66,13 +67,13 @@ if [ -a ./data/$1/$tableName ]
                 `cut -f$coloumnIndex -d: ./data/$1/$tableName | grep -w $newValue >> /dev/null 2>/dev/null` 
             done
         fi
-        ## read condition   
+        #read condition   
         for (( i=1; i <= $coloumnsNumber; i++ ))
         do
             echo $i"-" ${coloumnsNames[i]} "("${coloumnsTypes[i]}")"
         done
 
-        ## check if condition index is a number 
+        # check if condition index is a number 
         read -p "condition on which coloumn number : " conditionIndex 
         checkInt $conditionIndex
         while [[ $? -ne 0 || $conditionIndex -le 0 || $conditionIndex -gt $coloumnsNumber ]]
@@ -82,7 +83,7 @@ if [ -a ./data/$1/$tableName ]
             checkInt $conditionIndex
         done 
 
-        ## check data type of condition value
+        #check data type of condition value
         read -p "Enter a condtion value of type (${coloumnsTypes[conditionIndex]}) : " conditionValue;
         if [ ${coloumnsTypes[conditionIndex]} == "int" ]
             then
@@ -102,7 +103,7 @@ if [ -a ./data/$1/$tableName ]
         ## to avoid update if it violate pk
         if testPK=`grep "%:" ./data/$1/$tableName | cut -d ":" -f$coloumnIndex | grep "%PK%" ` 
         then 
-            x=`cat ./.tmp | cut -f$coloumnIndex -d:| grep -w $newValue|wc -l | cut -f1 -d:`
+            x=`cat ./.tmp | cut -f$coloumnIndex -d:| grep -w $newValue|wc -l | cut -f1 -d" "`
             echo $x
             if [ $x -gt 1 ]
             then

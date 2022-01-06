@@ -7,23 +7,21 @@ if [[ -f ./data/$1/$tbname ]]; then
 	echo "Table $tbname already exists"
 else
 	touch ./data/$1/$tbname 
-    read -p "enter number of coloumns : " coloumnsNomber
+    read -p "enter number of coloumns : " coloumnsNumber
     ## to check if number of coloumns is int
 
-    expr $coloumnsNomber + 1 2> /dev/null >> /dev/null
+    expr $coloumnsNumber + 1 2> /dev/null >> /dev/null
     while [ $? != 0 ]
     do
         echo "please enter a valid number"
-        read -p "enter number of coloumns : " coloumnsNomber
-        expr $coloumnsNomber + 1 2> /dev/null >> /dev/null
+        read -p "enter number of coloumns : " coloumnsNumber
+        expr $coloumnsNumber + 1 2> /dev/null >> /dev/null
     done
   
-    ## now read colomn type and names
+    # read colomn type and names
     i=1
-    while [ $i -le $coloumnsNomber ]
+    while [ $i -le $coloumnsNumber ]
     do
-
-        ## gen name of field
         read -p "Enter column $i name : " coloumnsName;
         while [ -z "$coloumnsName" ]; do
 			echo "field name can't be empty";
@@ -45,7 +43,7 @@ else
             fi
         done
         
-        ## get datatype of field
+        # get datatype of field
         read -p "Enter a valid column $i datatype : [string/int] " dataType;
         while [[ "$dataType" != *(int)*(string) || -z $dataType ]]
         do
@@ -53,8 +51,8 @@ else
 			read -p "Enter a valid column $i datatype again : [string/int] " dataType;
 		done
         
-        ## write in the table file; check to stop adding ":" in the last field
-        if [ $i -eq $coloumnsNomber ]
+        # write in the table file
+        if [ $i -eq $coloumnsNumber ]
             then
             echo $coloumnsName"%"$dataType"%" >> ./data/$1/$tbname
         else

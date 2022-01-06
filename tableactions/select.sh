@@ -1,14 +1,14 @@
 #!/bin/bash
 echo "Available tables in $1";
-ls data/$1;
+ls -1 data/$1;
 read -p "Enter table Name: " seltb;
 
 function tempfun 
 {
-        coloumnsNomber=`awk -F: 'NR==1 {print NF}' ./data/$1/$seltb`
-        for (( i=1; i <= $coloumnsNomber; i++ ))
+        coloumnsNumber=`awk -F: 'NR==1 {print NF}' ./data/$1/$seltb`
+        for (( i=1; i <= $coloumnsNumber; i++ ))
         do
-            ## this if condition because cut in case of pk is different
+            ## case pk
             if testPK=`grep "%:" ./data/$1/$seltb | cut -d ":" -f$i | grep "%PK%" ` 
             then
                 coloumnsNames[$i]=`grep "%:" ./data/$1/$seltb | cut -d ":" -f$i | cut -d "%" -f3 `
@@ -16,9 +16,10 @@ function tempfun
                 coloumnsNames[$i]=`grep "%:" ./data/$1/$seltb | cut -d ":" -f$i | cut -d "%" -f1 `
             fi
         done
-		for (( i=1; i <= $coloumnsNomber; i++ ))
+		
+		for (( i=1; i <= $coloumnsNumber; i++ ))
         do
-		if [[ $i != $coloumnsNomber ]]; then
+		if [[ $i != $coloumnsNumber ]]; then
                     echo -n ${coloumnsNames[i]}":" >> ./data/$1/.tmp;
 			else
 			        echo ${coloumnsNames[i]} >> ./data/$1/.tmp;

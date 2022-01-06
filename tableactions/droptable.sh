@@ -1,6 +1,6 @@
 #!/bin/bash
 echo "Available tables in $1"
-ls data/$1
+ls -1 data/$1
 read -p "Enter table Name: " dropt
 if [[ -f data/$1/$dropt ]]; then
 	echo "Are you Sure You Want To drop $dropt table? y/n"

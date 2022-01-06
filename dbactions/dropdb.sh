@@ -1,8 +1,8 @@
 #!/bin/bash
 echo "Available DataBases"
-ls -1 data/
+ls -1  data/
 read -p "Enter DataBase Name: " dropname
-if [[ -d data/$dropname ]]; then
+if [[ -d data/$dropname ]] ; then
 	echo "Are you Sure You Want To drop $dropname Database? y/n"
 	read choice;
 	case $choice in
