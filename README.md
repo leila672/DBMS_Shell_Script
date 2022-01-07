@@ -2,7 +2,7 @@
 
 ![alt text](bash.png)
 
-#About the project
+# About the project
 
 The Project aim to develop DBMS, that will enable users to store and retrieve the data from Hard-disk.
 
